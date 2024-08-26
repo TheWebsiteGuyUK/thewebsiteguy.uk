@@ -1,0 +1,52 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import Hero from '@blocks/Hero.astro';
+import Posts from '@blocks/Posts.astro';
+import Form from '@blocks/Form'; // Ensure this path is correct
+import Content from '@blocks/Content.astro';
+
+interface Props {
+  page: string; 
+}
+
+const { page } = Astro.props;
+
+const posts = await getCollection('posts');
+const { data } = await getEntry('pages', page);
+const blocks = data?.blocks ?? [];
+---
+
+{blocks.map(block => {
+  if (block.discriminant === 'heroBlock') {
+    return (
+      <Hero
+        heroImage={`${block.value.heroImage}`}
+        heroImageAlt={block.value.heroImageAlt}
+        heroImageClass="max-w-1/2 rounded-lg shadow-2xl"
+        heading={block.value.heading}
+        subheading={block.value.subheading}
+        intro={block.value.intro}
+        buttons={block.value.buttons || []} 
+      />
+    );
+  } else if (block.discriminant === 'postsBlock') {
+    return (
+      <Posts 
+        posts={posts}
+        heading={block.value.heading}
+      />
+    );
+  } else if (block.discriminant === 'formBlock') {
+    // Ensure correct field data is passed
+    const fields = Array.isArray(block.value.items) ? block.value.items : [];
+    return (
+      <Form
+        fields={fields} 
+      />
+    );
+  } else if (block.discriminant === 'contentBlock') {
+    return (
+      <Content content={block.value.content} />
+    );
+  } 
+})}

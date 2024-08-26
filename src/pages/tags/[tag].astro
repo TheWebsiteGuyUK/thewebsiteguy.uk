@@ -1,0 +1,47 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+
+interface Post {
+  id: string;
+  slug: string;
+  data: {
+    title: string;
+    excerpt: string;
+    tags: string[];
+    featuredImage: string;
+    imgAlt: string;
+  };
+}
+
+// Get all posts
+const posts: Post[] = await getCollection('posts');
+
+// Get the tag from the URL
+const { tag } = Astro.params as { tag: string };
+
+// Filter posts by the tag
+const filteredPosts = posts.filter(post => post.data.tags.includes(tag));
+---
+
+<Layout pageTitle={`Posts tagged with "${tag}"`}>
+    <div class="posts">
+        {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+                <article key={post.id} class="post">
+                    <h2>
+                        <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+                    </h2>
+                    <p>{post.data.excerpt}</p>
+                    <div class="post-tags">
+                        {post.data.tags.map(tag => (
+                            <a href={`/tags/${tag}`} class="tag" key={tag}>{tag}</a>
+                        ))}
+                    </div>
+                </article>
+            ))
+        ) : (
+            <p>No posts found for tag: {tag}</p>
+        )}
+    </div>
+</Layout>

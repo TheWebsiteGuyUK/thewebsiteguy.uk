@@ -1,0 +1,44 @@
+---
+
+import { Image } from 'astro:assets'
+
+const { posts, heading } = Astro.props
+
+
+---
+
+<section>
+    <div class="container mx-auto max-w-screen-2xl py-20">
+        <div class="flex flex-col p-3">
+            <header class="text-center pb-20">
+                <h1 class="text-4xl font-semibold">{heading}</h1>
+                <p></p>
+            </header>
+            <div class="">
+                <ul class="flex flex-wrap items-stretch justify-center gap-6">
+                    {
+                      posts.map((post) => (
+                        <li class="">
+                          <a href={`/posts/${post.slug}`}>
+                            <div class="card h-full max-w-96 bg-base-300 shadow-xl transition-transform hover:scale-105">
+                              <figure>
+                                <Image src={post.data.featuredImage} alt={post.data.imgAlt} class="h-64 object-cover" />
+                              </figure>
+                              <div class="card-body">
+                                <h2 class="card-title">{post.data.title}</h2>
+                                <p>{post.data.excerpt}</p>
+                                <div class="card-actions justify-end">
+                                  <div class="badge badge-outline">Fashion</div>
+                                  <div class="badge badge-outline">Products</div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+            </div>
+        </div>
+    </div>
+</section>

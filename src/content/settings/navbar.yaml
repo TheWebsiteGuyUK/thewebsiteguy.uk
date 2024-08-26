@@ -1,0 +1,11 @@
+links:
+  - text: Link 1
+    isDropdown:
+      discriminant: false
+      value:
+        link: /
+buttons:
+  - label: Test Button
+    link: '#'
+    style: outline
+    size: ''

@@ -1,0 +1,37 @@
+---
+import HeroImage from "@components/HeroImage.astro";
+import Button from "@components/ui/Button";
+
+const { heroImage, heading, subheading, intro, heroImageAlt, class: className, buttons } = Astro.props;
+
+// Prefill the heroImageAlt with a default value if it's missing
+const altText = heroImageAlt || "Hero Image";
+---
+<section class={className}>
+  <div class="max-w-screen-2xl mx-auto py-20 px-6">
+    <div class="flex justify-between items-center flex-col-reverse lg:flex-row-reverse max-w-screen-2xl py-10">
+      <HeroImage imagePath={`${heroImage}`} altText={altText} class="h-auto w-full rounded-lg drop-shadow-2xl " />
+      <div class="space-y-6">
+        <h1 class="text-4xl md:text-5xl font-bold text-balance">{heading}</h1>
+        <h2 class="text-2xl md:text-4xl font-semibold">{subheading}</h2>
+        <p>
+          {intro}
+        </p>
+        <div class="flex flex-col items-center justify-start gap-4 lg:flex-row">
+          {
+            buttons.map((button) => (
+              <Button
+                client:load
+                link={button.link}
+                label={button.label}
+                style={button.style}
+                size={button.size}
+                icon={button.icon}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

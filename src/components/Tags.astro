@@ -1,0 +1,12 @@
+---
+
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props as Props;
+---
+
+  {tags.map(tag => (
+    <a href={`/tags/${tag}`} class="badge badge-outline">{tag}</a>
+  ))}

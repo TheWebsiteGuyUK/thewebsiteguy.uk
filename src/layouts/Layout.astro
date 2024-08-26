@@ -1,0 +1,39 @@
+---
+import "@styles/global.css"
+import { ViewTransitions } from 'astro:transitions';
+import Navbar from '@components/Navbar.astro';
+import { getEntry } from 'astro:content'
+const branding = await getEntry('settings', 'branding')
+
+const siteSetting = branding.data.site
+
+
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description">
+		<meta name="viewport" content="width=device-width" />
+		{siteSetting.favicon && (
+			<link rel="icon" href={siteSetting.favicon} />
+          )}
+		<ViewTransitions />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-base-200">
+		<section class="fixed top-o w-full mx-auto p-3 z-50">
+			<Navbar />
+		</section>
+		<main class="relative z-10">
+			<slot />
+		</main>
+	</body>
+</html>

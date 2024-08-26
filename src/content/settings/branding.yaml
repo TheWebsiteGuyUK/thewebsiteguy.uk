@@ -1,0 +1,5 @@
+site:
+  siteName: The Website Guy
+  logoLight: /src/assets/images/logo/site/logoLight.webp
+  logoDark: /src/assets/images/logo/site/logoDark.webp
+  favicon: /images/site/favicon.png

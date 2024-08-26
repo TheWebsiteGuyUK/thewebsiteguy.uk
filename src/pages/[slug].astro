@@ -1,0 +1,34 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '@layouts/Layout.astro';
+import Blocks from '@components/Blocks.astro';
+
+const { slug } = Astro.params;
+if (!slug) throw new Error('Slug not found');
+
+// Fetch the page entry using the correct collection and entry identifier
+const page = await getEntry('pages', slug);
+
+
+if (!page) throw new Error('No page found for this slug');
+
+
+// Generate static pages
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map(page => ({ params: { slug: page.id } }));
+}
+
+export const prerender = true;
+
+
+---
+
+<Layout title={page.data.title}>
+  <h1>{page.data.title}</h1>
+  
+
+  <Blocks page={page.id} />
+
+</Layout>
+
